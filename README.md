@@ -1,2 +1,2 @@
 # ML
-All my Machine Learning work/projects at one place
+All my Machine Learning projects at one place
