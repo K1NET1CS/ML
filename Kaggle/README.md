@@ -14,12 +14,12 @@ Model Performance - Accuracy Score: 0.77511
 3. Numerical Data Analysis
    
    * Parch catplot reveals smaller families (slightly low for alone) tend to have higher survival chances
-     
-     *Created a new Family_Size parameter
+      
+     *Created a new Family_Size parameter*
 
    * SibSp catplot reverals >=3 SibSp examples have lower survival chances
   
-     *Hence did not drop after create a new Family_Size parameter
+     *Hence did not drop after create a new Family_Size parameter*
    
    * Age kdeplot reveals higher chances of survival than not in very low age (~<=5) groups
      
