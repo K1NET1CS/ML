@@ -4,7 +4,7 @@
 
 This Project implements an **Ensembling Strategy** combining multiple Decison Tree based models
 
-Model Performance - Accuracy Score: 0.77511
+Model Performance - Accuracy Score: *0.77511*
 
 **Crucial Steps** :
 1. Dropped Outlier training examples (10 examples) from dataset using Tukey Method : Dropped only those with more than half parametrs having outlier values. Embarked has only 2 missing values - filled by mode ("S")
@@ -56,9 +56,9 @@ Finally, trained a voting classifier using these estimators
 ## Titanic_ModelEnsemble1
 **[Jupyter Notebook](./Titanic_ModelEnsemble1.ipynb)**
 
-This project implements an **Advanced Feature Engineering & Ensembling Strategy** combining regularized linear models and gradient-boosted decision trees tuned with Optuna.
+This model implements an **Advanced Feature Engineering & Ensembling Strategy** combining regularized linear models and gradient-boosted decision trees tuned with Optuna
 
-Model Performance - Accuracy Score: *[Insert your final score here, e.g., 0.79425]*
+Model Performance - Accuracy Score: *0.78229*
 
 **Crucial Steps** :
 
