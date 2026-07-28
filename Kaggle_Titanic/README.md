@@ -1,4 +1,4 @@
-# KAGGLE COMPETITION MODEL DESCRIPTIONS
+# KAGGLE TITANIC MODEL DESCRIPTIONS
 ## Titanic_ModelEnsemble0
 **[Jupyter Notebook](./Titanic_ModelEnsemble0.ipynb)**
 
