@@ -83,3 +83,46 @@ Model Performance - Accuracy Score: *0.78229*
    * Used **Stratified 5-Fold Cross-Validation** to preserve target class ratios across evaluation splits.
    * Automated hyperparameter optimization using **Optuna** for three distinct model families: **Logistic Regression**, **Random Forest**, and **XGBoost Classifier**.
    * Constructed a **Soft Voting Classifier** and a **Stacking Classifier** (using $\text{LogisticRegression}$ as a meta-learner) to combine out-of-fold probability predictions from all tuned base models.
+
+---
+
+## Titanic_ManualDecisionTree
+**[Jupyter Notebook](./Titanic_ManualDecisionTree.ipynb)**
+
+This model is a complete departure from previous model ensembling techniques and implements a Rule-Based Domain Logic Strategy leveraging the Woman-Child Group (WCG) pattern. Instead of relying purely on statistical machine learning algorithms, it utilizes explicit conditional heuristics derived from passenger group survival dynamics and historical context and performs much better !
+
+Model Performance - Accuracy Score: 0.80143
+
+**Crucial Steps** :
+	
+ 1.	Woman-Child Group Identification & Feature Extraction
+ 
+  * Identified group connections by extracting Surname from ‭Name‬ and combining it with shared Ticket identifiers
+  * Defined a target subset consisting strictly of females and children Age < 14‬‭‬ or ‭Title = Master
+  * Calculated the collective survival rate group for linked woman-child clusters to capture group-level outcome dependencies
+
+‭‭‬
+	2.	Manual Decision Rules Formulation
+  * Structured a explicit deterministic decision tree that overrides standalone demographic baselines based on group outcome context
+‬‭‬‭‬
+	3.	Fallback & Singleton Heuristics
+  * Evaluated solo passengers FamilySize=1‬) and unlinked groups using classic demographic thresholds
+  * ### Decision Flow Visualizer
+
+```text
+                                [All Passengers]
+                                       │
+            ┌──────────────────────────┴──────────────────────────┐
+            │                                                     │
+[Is Adult Male? (Sex == male & Age >= 14)]      [Is Female or Child? (Sex == female | Age < 14)]
+            │                                                     │
+     ┌──────┴──────┐                                       ┌──────┴──────┐
+     │             │                                       │             │
+[Belongs to     [Default Adult                          [Belongs to   [Default Woman/
+ Survived WCG    Male Rule]                              Perished WCG   Child Rule]
+ Group?]           │                                     Group?]         │
+     │       Predict: 0 (Perished)                         │       Predict: 1 (Survived)
+    YES                                                   YES
+     │                                                     │
+ Predict: 1 (Survived)                                Predict: 0 (Perished)
+
