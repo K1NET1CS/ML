@@ -83,6 +83,15 @@ Model Performance - Accuracy Score: *0.78229*
    * Used **Stratified 5-Fold Cross-Validation** to preserve target class ratios across evaluation splits.
    * Automated hyperparameter optimization using **Optuna** for three distinct model families: **Logistic Regression**, **Random Forest**, and **XGBoost Classifier**.
    * Constructed a **Soft Voting Classifier** and a **Stacking Classifier** (using $\text{LogisticRegression}$ as a meta-learner) to combine out-of-fold probability predictions from all tuned base models.
+  
+---
+
+## Titanic_HighValueFeaturesOnly
+**[Jupyter Notebook](./Titanic_HighValueFeaturesOnly.ipynb)**
+
+This model uses only the very high value features from Titanic_ModelEnsemble1 engineered features and completely discarding features like Cabin,Embarked,Deck,etc with marginal or no improvements
+
+Model Performance - Accuracy Score : 0.80143
 
 ---
 
@@ -124,5 +133,6 @@ Model Performance - Accuracy Score: 0.80143
      │       Predict: 0 (Perished)                         │       Predict: 1 (Survived)
     YES                                                   YES
      │                                                     │
- Predict: 1 (Survived)                                Predict: 0 (Perished)
+ Predict: 1 (Survived)                                Predict: 0 (Perished). 
+
 
