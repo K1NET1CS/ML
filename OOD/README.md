@@ -17,3 +17,16 @@ Instead of relying on softmax confidence or adding an explicit "reject" class, t
 * **Reject Class Limitation:** Training a 10th class on synthetic noise detects noise perfectly but fails catastrophically on structured OOD data (like FashionMNIST or digit 0).
 * **Near-OOD Success:** The normalized feature distance successfully flags digit 0 (which shares the exact domain and style as the training data) with a strong **AUROC of 0.975**.
 * **The Noise Anomaly:** Structureless Gaussian noise activates very few filters, causing feature vectors to collapse near the origin. L2 normalization forces these vectors outward onto the unit hypersphere, restoring smooth distance-based separation.
+
+## 1_MSP_Baseline
+
+**Objective:** OOD detection on MNIST evaluating two scoring methods from the Hendrycks & Gimpel (2017) baseline against corrupted MNIST test images (Gaussian noise, Uniform noise, Blur, Rotation).
+
+**Core Approach: Joint Classification & Reconstruction**
+The model is a flat MLP branching into a 10-way classifier and a reconstruction decoder, trained jointly. Two scoring methods are compared:
+* **MSP (Max Softmax Probability):** Flags images as OOD if the maximum softmax confidence is below a threshold. 
+* **Abnormality Module:** A small auxiliary MLP trained on top of the frozen model. It takes internal features, softmax probabilities, and reconstruction error as inputs to predict an OOD score. 
+
+**Key Findings:**
+* **Softmax Overconfidence:** MSP works adequately on structureless Gaussian noise but fails significantly on structured/degraded inputs (Uniform noise, Blur) due to the classifier's overconfidence.
+* **The Power of Reconstruction:** The Abnormality Module consistently outperforms MSP across all corruptions. Even when the classifier is confidently wrong about an OOD image, the decoder fails to reconstruct it, providing a crucial secondary signal that the input is anomalous.
