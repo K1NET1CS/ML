@@ -1,5 +1,9 @@
 # OOD : Out of Distribution Detection
 
+NOTION PAGE for summary of all methods implemented
+https://app.notion.com/p/ML-Workspace-3cfc5fbebbce80a3984bf0db5ebdb539?source=copy_link
+
+
 ## 0_MyAttempts
 These are 3 methods I tried to capture Out of Distribution examples before diving into research papers on OOD
 
@@ -30,3 +34,18 @@ The model is a flat MLP branching into a 10-way classifier and a reconstruction 
 **Key Findings:**
 * **Softmax Overconfidence:** MSP works adequately on structureless Gaussian noise but fails significantly on structured/degraded inputs (Uniform noise, Blur) due to the classifier's overconfidence.
 * **The Power of Reconstruction:** The Abnormality Module consistently outperforms MSP across all corruptions. Even when the classifier is confidently wrong about an OOD image, the decoder fails to reconstruct it, providing a crucial secondary signal that the input is anomalous.
+
+## 2_ODIN
+
+**Objective:** Implement ODIN on MNIST to improve OOD detection without retraining the core network.
+
+**Core Approach:**
+* **Temperature Scaling:** Softens logits via temperature $T$ to amplify the separation between in-distribution and OOD samples:
+$$S_i(x; T)=\frac{\exp(f_i(x)/T)}{\sum_{j=1}^N \exp(f_j(x)/T)}$$
+* **Input Perturbation:** Adds controlled, gradient-based noise to boost the confidence of in-distribution data more effectively than OOD data:
+x=x + epsilon * gradient(log Sy(x;T))
+* **Tuning:** Optimal $T$ and $\epsilon$ are calibrated using a small validation set containing both clean and corrupted data.
+
+**Key Findings:**
+* **Amplified Separation:** ODIN exploits the gradient landscape to significantly outperform the raw MSP baseline across all structured corruptions (blur, noise, rotation).
+* **Tuning Dependency:** Unlike autoencoder methods, ODIN's effectiveness relies heavily on having a representative OOD validation set to tune its hyperparameters.
