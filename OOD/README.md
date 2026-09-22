@@ -1,7 +1,7 @@
 # OOD : Out of Distribution Detection
 
-NOTION PAGE for summary of all methods implemented
-https://app.notion.com/p/ML-Workspace-3cfc5fbebbce80a3984bf0db5ebdb539?source=copy_link
+NOTION PAGE for details of all methods implemented
+[https://app.notion.com/p/ML-Workspace-3cfc5fbebbce80a3984bf0db5ebdb539?source=copy_link](https://app.notion.com/p/OOD-3cfc5fbebbce80a3984bf0db5ebdb539?source=copy_link)
 
 
 ## 0_MyAttempts
