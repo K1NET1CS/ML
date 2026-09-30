@@ -1,3 +1,8 @@
+# About this repository
+- Compares performance of CNN based feature extractor (ResNet50 Layer 2,3) and ViT based feature extractor (DINOv2-(ViT-B/14)) on common heads : auto encoder, auto encoder with position encoding, Patch Distribution Modelling
+- 
+
+
 # Anomaly Detection on MVTec AD: CNN and Statistical Methods
 
 This repository contains Jupyter Notebook implementations and evaluations of various Convolutional Neural Network (CNN) and statistical models for unsupervised anomaly detection. The models are evaluated on the MVTec AD dataset, with performance measured using Area Under the Receiver Operating Characteristic (AUROC) for both image-level anomaly detection and pixel-level anomaly localization.
@@ -42,3 +47,55 @@ A robust approach that aggregates the predictions of multiple reconstruction mod
 
 **6. PaDiM (Patch Distribution Modeling)**
 A powerful statistical anomaly detection method that leverages pre-trained CNNs (such as ResNet) for feature extraction. It avoids a reconstruction bottleneck entirely; instead, it models the normal distribution of localized patch embeddings using a multivariate Gaussian. Anomalies are scored using the Mahalanobis distance between a test patch and the learned normal distribution.
+
+
+# Anomaly Detection on MVTec AD: ViT extractor followed by same heads (AE,AE_pos,PaDiM)
+
+ViT (DinoV2) Feature Extractor
+
+This feature extractor uses weights from blocks 5 and 8 of the pre-trained Dinov2_vitb14 model. By leveraging Vision Transformers (ViT) instead of traditional CNNs, this method captures deep, global contextual representations of the input images. These rich, dense features are then passed to the anomaly detection heads (AE, AE_Pos, PaDiM, and Ensemble). The ViT backbone often yields superior detection performance by better understanding long-range dependencies within the image.
+
+## ViT-Based Extractor Performance
+
+| Category | ae (Image) | ae (Pixel) | ae_pos (Image) | ae_pos (Pixel) | padim (Image) | padim (Pixel) | ensemble (Image) | ensemble (Pixel) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Bottle | 0.9992 | 0.9895 | 0.9992 | 0.9892 | 1.0000 | 0.9897 | 1.0000 | 0.9904 |
+| Cable | 0.9239 | 0.9676 | 0.9278 | 0.9686 | 0.8731 | 0.9792 | 0.8919 | 0.9805 |
+| Capsule | 0.9581 | 0.9868 | 0.9581 | 0.9866 | 0.8983 | 0.9897 | 0.9186 | 0.9903 |
+| Carpet | 1.0000 | 0.9961 | 0.9996 | 0.9962 | 0.9988 | 0.9960 | 0.9992 | 0.9962 |
+| Grid | 1.0000 | 0.9959 | 1.0000 | 0.9959 | 0.9975 | 0.9940 | 0.9992 | 0.9948 |
+| Hazelnut | 0.9986 | 0.9947 | 0.9989 | 0.9945 | 0.5621 | 0.9866 | 0.6961 | 0.9915 |
+| Leather | 1.0000 | 0.9945 | 1.0000 | 0.9944 | 0.9929 | 0.9945 | 0.9997 | 0.9946 |
+| Metal Nut | 1.0000 | 0.9622 | 1.0000 | 0.9621 | 0.9995 | 0.9731 | 1.0000 | 0.9738 |
+| Pill | 0.9776 | 0.9684 | 0.9785 | 0.9676 | 0.9351 | 0.9484 | 0.9468 | 0.9559 |
+| Screw | 0.8692 | 0.9898 | 0.8717 | 0.9896 | 0.9078 | 0.9937 | 0.9383 | 0.9945 |
+| Tile | 1.0000 | 0.9806 | 1.0000 | 0.9809 | 0.9964 | 0.9771 | 0.9978 | 0.9780 |
+| Toothbrush | 1.0000 | 0.9943 | 1.0000 | 0.9942 | 0.9917 | 0.9933 | 0.9917 | 0.9933 |
+| Transistor | 0.9779 | 0.9036 | 0.9779 | 0.9033 | 0.9550 | 0.9766 | 0.9592 | 0.9758 |
+| Wood | 0.9895 | 0.9753 | 0.9904 | 0.9757 | 0.9895 | 0.9700 | 0.9912 | 0.9724 |
+| Zipper | 0.9932 | 0.9845 | 0.9921 | 0.9849 | 0.9905 | 0.9847 | 0.9937 | 0.9854 |
+| **AVERAGE** | **0.9791** | **0.9789** | **0.9796** | **0.9789** | **0.9392** | **0.9831** | **0.9549** | **0.9845** |
+
+## Backbone Comparison: CNN vs ViT (Image AUROC)
+
+The following table compares the overall Image AUROC performance between the baseline CNN extractor and the ViT extractor.
+
+| Category | CNN | ViT | Delta (ViT - CNN) |
+| :--- | :--- | :--- | :--- |
+| Bottle | 1.0000 | 0.9996 | -0.0004 |
+| Cable | 0.8981 | 0.9042 | 0.0061 |
+| Capsule | 0.8216 | 0.9333 | 0.1117 |
+| Carpet | 0.9421 | 0.9994 | 0.0573 |
+| Grid | 0.6861 | 0.9992 | 0.3131 |
+| Hazelnut | 0.9754 | 0.8139 | -0.1615 |
+| Leather | 1.0000 | 0.9981 | -0.0019 |
+| Metal_nut | 0.9939 | 0.9999 | 0.0060 |
+| Pill | 0.9162 | 0.9595 | 0.0433 |
+| Screw | 0.7431 | 0.8968 | 0.1536 |
+| Tile | 0.9932 | 0.9986 | 0.0053 |
+| Toothbrush | 0.8361 | 0.9958 | 0.1597 |
+| Transistor | 0.8807 | 0.9675 | 0.0868 |
+| Wood | 0.9836 | 0.9901 | 0.0066 |
+| Zipper | 0.9523 | 0.9924 | 0.0401 |
+| **MEAN** | **0.9082** | **0.9632** | **0.0551** |
+
