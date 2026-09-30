@@ -99,3 +99,19 @@ The following table compares the overall Image AUROC performance between the bas
 | Zipper | 0.9523 | 0.9924 | 0.0401 |
 | **MEAN** | **0.9082** | **0.9632** | **0.0551** |
 
+
+# End to End transformer based anomaly detection
+
+This model involves a transformer encoder operating over a grid of frozen ViT patch features rather than 1x1 convolution head used in previous models. ViT Extractor model proved that attention-based features help improve performance, in this model - we also add a attention based reasoning of these features instead of earlier convolution based methods or statistical methods.
+
+- A denoising formulation where head reconstructs all tokens from a noised input performed competitively with earlier models, a masked-modelling formulation closer to masked auto encoder objective used in large scale self supervised vision transformers was much less stable mainly due to less data available
+- This observation is in line with the recognised limitation of self attention carrying none of built-in spatial locality bias which convolutions have and requires to learn which nearby locations are relevant from the data rather than having it readily from the architecture
+- A denoising task where every token is present and only noise needs to be removed can be done by model using shortcuts instead of actually learning. A masking task however requires a token reconstructed purely based on surrounding context with no local information of its own : where attention mechanism requires far more data where the dataset fell significantly short
+
+
+# Possible Improvements
+
+- **Pooling across categories :** Rather than training a separate head per object class on a few hundred images each, a shared transformer head trained jointly across all fifteen MVTec-AD categories — with category identity as conditioning information would increase the effective training set, where masked-modeling objectives might succeed.
+
+
+- **Fine-tuning rather than freezing the backbone :**  The current setup keeps the ViT backbone entirely frozen precisely because end-to-end fine-tuning on a few hundred images per category invites overfitting. With a larger or pooled dataset, lightly fine-tuning the backbone jointly with the transformer head becomes feasible and could let the whole pipeline, not just the reconstruction step specialize toward the anomaly detection objective rather than relying on features learned for a generic self-supervised task.
