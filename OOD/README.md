@@ -1,6 +1,6 @@
 # Out-of-Distribution (OOD) Detection on MNIST
 
-[Notion page with detailed implementation notes](https://app.notion.com/p/ML-OOD-3cfc5fbebbce80a3984bf0db5ebdb539?source=copy_link)
+[Notion page with detailed notes from cited papers](https://app.notion.com/p/ML-OOD-3cfc5fbebbce80a3984bf0db5ebdb539?source=copy_link)
 
 These are my notes and implementations for various OOD detection methods built from scratch. The setup is simple: train a model only on MNIST digits 1 through 9. It needs to flag everything else as out-of-distribution without seeing those examples during training.
 
