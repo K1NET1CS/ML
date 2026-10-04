@@ -1,6 +1,5 @@
 # About this repository
 - Compares performance of CNN based feature extractor (ResNet50 Layer 2,3) and ViT based feature extractor (DINOv2-(ViT-B/14)) on common heads : auto encoder, auto encoder with position encoding, Patch Distribution Modelling
-- 
 
 
 # Anomaly Detection on MVTec AD: CNN and Statistical Methods
